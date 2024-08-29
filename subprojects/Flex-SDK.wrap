@@ -1,0 +1,4 @@
+[wrap-git]
+url = https://github.com/Myriota/Flex-SDK.git
+revision = v2.0.0
+depth = 1

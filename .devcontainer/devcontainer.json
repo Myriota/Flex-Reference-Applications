@@ -1,0 +1,9 @@
+{
+    "build": {
+      "dockerfile": "./Containerfile",
+      "context": "../"
+    },
+    "remoteEnv": {
+        "PATH": "${containerEnv:PATH}:${containerWorkspaceFolder}/scripts:/opt/gcc-arm-13_2_1/bin"
+    }
+}
