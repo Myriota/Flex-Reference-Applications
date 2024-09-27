@@ -37,8 +37,8 @@
 struct message {
   uint8_t sequence_number;
   uint32_t time;
-  int32_t longitude;
   int32_t latitude;
+  int32_t longitude;
   uint16_t pulse_counter;
 } __attribute__((packed));
 _Static_assert(sizeof(struct message) <= FLEX_MAX_MESSAGE_SIZE,
@@ -72,7 +72,7 @@ static void PulseCounterInit(void) {
     printf("Failed to initialise pulse counter\n");
     return;
   }
-  FLEX_PulseCounterHandlerModify(PulseCounterEvent, FLEX_PCNT_WAKEUP_HANDLER_MODIFY_ADD);
+  FLEX_PulseCounterHandlerModify(PulseCounterEvent, FLEX_HANDLER_MODIFY_ADD);
   FLEX_DelayMs(PCNT_STABILISE_DELAY_MS);
 
   // Initalize pulse count
@@ -85,18 +85,18 @@ static time_t QueueMessage() {
 
   msg.sequence_number = SequenceNumberNext();
   msg.time = FLEX_TimeGet();
-  int32_t longitude;
   int32_t latitude;
-  FLEX_CHECK(FLEX_GNSSFix(&longitude, &latitude, NULL));
-  msg.longitude = (int32_t)longitude;
+  int32_t longitude;
+FLEX_LastLocationAndLastFixTime(&latitude, &longitude, NULL);
   msg.latitude = (int32_t)latitude;
+  msg.longitude = (int32_t)longitude;
   msg.pulse_counter = ReadPulseCount();
 
   printf("Scheduled message: %u %lu %ld %ld %u\n",
     msg.sequence_number,
     msg.time,
-    msg.longitude,
     msg.latitude,
+    msg.longitude,
     msg.pulse_counter);
 
   FLEX_MessageSchedule((uint8_t *)&msg, sizeof(msg));
@@ -104,13 +104,19 @@ static time_t QueueMessage() {
   return (FLEX_TimeGet() + 24 * 3600 / MESSAGES_PER_DAY);
 }
 
+const char *FLEX_AppVersionString() { return "1.2.0"; }
+
+uint16_t FLEX_AppId() { return 3; }
+
+uint16_t FLEX_MessagesPerDay() { return MESSAGES_PER_DAY; }
+
 /*
  * IMPORTANT! `FLEX_AppInit` is the entry point for your application. You
  * must provide an implementation, otherwise you will experience linking
  * errors similar to this: "undefined reference to `FLEX_AppInit'"
  */
 void FLEX_AppInit() {
-  printf("Pulse Counter: 1.0.0-%s\n", GIT_SHORT_HASH);
+  printf("Pulse Counter: 1.2.0-%s\n", GIT_SHORT_HASH);
   PulseCounterInit();
   FLEX_JobSchedule(QueueMessage, FLEX_ASAP());
 }

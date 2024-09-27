@@ -36,8 +36,8 @@
 struct message {
   uint8_t sequence_number;
   uint32_t time;
-  int32_t longitude;
   int32_t latitude;
+  int32_t longitude;
   int16_t onboard_temperature;
   uint16_t sensor_current;
 } __attribute__((packed));
@@ -82,11 +82,11 @@ static time_t QueueMessage() {
 
   msg.sequence_number = SequenceNumberNext();
   msg.time = FLEX_TimeGet();
-  int32_t longitude;
   int32_t latitude;
-  FLEX_CHECK(FLEX_GNSSFix(&longitude, &latitude, NULL));
-  msg.longitude = (int32_t)longitude;
+  int32_t longitude;
+FLEX_LastLocationAndLastFixTime(&latitude, &longitude, NULL);
   msg.latitude = (int32_t)latitude;
+  msg.longitude = (int32_t)longitude;
   float onboard_temperature;
   FLEX_CHECK(FLEX_TemperatureGet(&onboard_temperature));
   msg.onboard_temperature = (int16_t)(onboard_temperature * 100);
@@ -95,8 +95,8 @@ static time_t QueueMessage() {
   printf("Scheduled message: %u %lu %ld %ld %d %u\n",
     msg.sequence_number,
     msg.time,
-    msg.longitude,
     msg.latitude,
+    msg.longitude,
     msg.onboard_temperature,
     msg.sensor_current);
 
@@ -105,13 +105,19 @@ static time_t QueueMessage() {
   return (FLEX_TimeGet() + 24 * 3600 / MESSAGES_PER_DAY);
 }
 
+const char *FLEX_AppVersionString() { return "1.2.0"; }
+
+uint16_t FLEX_AppId() { return 2; }
+
+uint16_t FLEX_MessagesPerDay() { return MESSAGES_PER_DAY; }
+
 /*
  * IMPORTANT! `FLEX_AppInit` is the entry point for your application. You
  * must provide an implementation, otherwise you will experience linking
  * errors similar to this: "undefined reference to `FLEX_AppInit'"
  */
 void FLEX_AppInit() {
-  printf("Sensor 4-20ma: 1.0.0-%s\n", GIT_SHORT_HASH);
+  printf("Sensor 4-20ma: 1.2.0-%s\n", GIT_SHORT_HASH);
 
   FLEX_JobSchedule(QueueMessage, FLEX_ASAP());
 }

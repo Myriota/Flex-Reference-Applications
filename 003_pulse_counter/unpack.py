@@ -14,7 +14,7 @@
 # limitations under the License.
 
 
-# Unpacker for the FlexSense - "Pulse Counter" 1.0.0
+# Unpacker for the FlexSense - "Pulse Counter" 1.2.0
 # Usage:
 # unpack.py -x <message_data>
 # or
@@ -26,20 +26,20 @@ import json
 import fileinput
 
 def unpack(packet):
-    sequence_number, time, longitude, latitude, pulse_counter = struct.unpack(
+    sequence_number, time, latitude, longitude, pulse_counter = struct.unpack(
         "<BIiiH", bytearray.fromhex(packet[0:30]))
 
     return [{
         "Sequence Number": sequence_number,
         "Time": time,
-        "Longitude": longitude * 1e-07,
         "Latitude": latitude * 1e-07,
+        "Longitude": longitude * 1e-07,
         "Pulse Counter": pulse_counter,
     }]
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Unpack hexadecimal data from FlexSense - \"Pulse Counter\" 1.0.0",
+        description="Unpack hexadecimal data from FlexSense - \"Pulse Counter\" 1.2.0",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(

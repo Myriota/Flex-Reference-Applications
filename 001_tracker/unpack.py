@@ -14,7 +14,7 @@
 # limitations under the License.
 
 
-# Unpacker for the FlexSense - "Tracker" 1.0.0
+# Unpacker for the FlexSense - "Tracker" 1.1.1
 # Usage:
 # unpack.py -x <message_data>
 # or
@@ -26,20 +26,20 @@ import json
 import fileinput
 
 def unpack(packet):
-    sequence_number, time, longitude, latitude, onboard_temperature = struct.unpack(
+    sequence_number, time, latitude, longitude, onboard_temperature = struct.unpack(
         "<BIiih", bytearray.fromhex(packet[0:30]))
 
     return [{
         "Sequence Number": sequence_number,
         "Time": time,
-        "Longitude": longitude * 1e-07,
         "Latitude": latitude * 1e-07,
+        "Longitude": longitude * 1e-07,
         "Onboard Temperature": onboard_temperature * 0.01,
     }]
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Unpack hexadecimal data from FlexSense - \"Tracker\" 1.0.0",
+        description="Unpack hexadecimal data from FlexSense - \"Tracker\" 1.1.1",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
