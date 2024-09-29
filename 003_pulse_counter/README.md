@@ -1,4 +1,4 @@
-# Pulse Counter v1.2.0
+# Pulse Counter v1.2.1
 A reference app that reports the pulses count by the FlexSense device. The pulse counter value reported is cumulative and overflows (and resets back to 0) after counting up to 65535.
 
 ## Message Payload Format

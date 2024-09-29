@@ -84,7 +84,7 @@ static time_t QueueMessage() {
   msg.time = FLEX_TimeGet();
   int32_t latitude;
   int32_t longitude;
-FLEX_LastLocationAndLastFixTime(&latitude, &longitude, NULL);
+  FLEX_LastLocationAndLastFixTime(&latitude, &longitude, NULL);
   msg.latitude = (int32_t)latitude;
   msg.longitude = (int32_t)longitude;
   float onboard_temperature;
@@ -105,7 +105,7 @@ FLEX_LastLocationAndLastFixTime(&latitude, &longitude, NULL);
   return (FLEX_TimeGet() + 24 * 3600 / MESSAGES_PER_DAY);
 }
 
-const char *FLEX_AppVersionString() { return "1.2.0"; }
+const char *FLEX_AppVersionString() { return "1.2.1"; }
 
 uint16_t FLEX_AppId() { return 2; }
 
@@ -117,7 +117,7 @@ uint16_t FLEX_MessagesPerDay() { return MESSAGES_PER_DAY; }
  * errors similar to this: "undefined reference to `FLEX_AppInit'"
  */
 void FLEX_AppInit() {
-  printf("Sensor 4-20ma: 1.2.0-%s\n", GIT_SHORT_HASH);
+  printf("Sensor 4-20ma: 1.2.1-%s\n", GIT_SHORT_HASH);
 
   FLEX_JobSchedule(QueueMessage, FLEX_ASAP());
 }

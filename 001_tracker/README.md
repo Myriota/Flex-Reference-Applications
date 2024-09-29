@@ -1,4 +1,4 @@
-# Tracker v1.1.1
+# Tracker v1.2.1
 A reference app that reports on-board temperature and location over Myriota satellite network.
 
 ## Message Payload Format

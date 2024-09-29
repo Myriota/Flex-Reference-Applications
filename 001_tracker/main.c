@@ -74,7 +74,7 @@ static time_t QueueMessage() {
   return (FLEX_TimeGet() + 24 * 3600 / MESSAGES_PER_DAY);
 }
 
-const char *FLEX_AppVersionString() { return "1.1.1"; }
+const char *FLEX_AppVersionString() { return "1.2.1"; }
 
 uint16_t FLEX_AppId() { return 1; }
 
@@ -86,7 +86,7 @@ uint16_t FLEX_MessagesPerDay() { return MESSAGES_PER_DAY; }
  * errors similar to this: "undefined reference to `FLEX_AppInit'"
  */
 void FLEX_AppInit() {
-  printf("Tracker: 1.1.1-%s\n", GIT_SHORT_HASH);
+  printf("Tracker: 1.2.1-%s\n", GIT_SHORT_HASH);
 
   FLEX_JobSchedule(QueueMessage, FLEX_ASAP());
 }

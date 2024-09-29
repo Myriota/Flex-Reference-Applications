@@ -1,6 +1,6 @@
 project('flex-reference-applications',
   'c',
-  version: '1.1.1',
+  version: '1.1.2',
   meson_version: '>=0.61.2',
   default_options: [
     'c_std=gnu99',

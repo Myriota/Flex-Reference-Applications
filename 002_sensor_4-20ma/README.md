@@ -1,4 +1,4 @@
-# Sensor 4-20ma v1.2.0
+# Sensor 4-20ma v1.2.1
 A reference app that reports the current reading (in uA) measured on FlexSense's analog input channel.
 
 ## Message Payload Format
