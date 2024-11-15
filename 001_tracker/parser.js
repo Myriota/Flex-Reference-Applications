@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-// FlexSenese Tagio Payload Parser - "Tracker" 1.2.1
+// FlexSenese Tagio Payload Parser - "Tracker" 1.2.2
 
 const payload_raw = payload.find(x => x.variable === 'payload_raw' || x.variable === 'payload' || x.variable === 'data');
 if (payload_raw) {
@@ -36,6 +36,11 @@ if (payload_raw) {
                 lng: data.find(x => x.variable === 'longitude').value,
             },
         });
+
+        // Add time to data fields
+        const date = new Date(0);
+        date.setUTCSeconds(data.find(x => x.variable === 'time').value);
+        data = data.map(x => ({ ...x, time: date }));
 
         payload = payload.concat(data.map(x => ({ ...x })));
     } catch (e) {

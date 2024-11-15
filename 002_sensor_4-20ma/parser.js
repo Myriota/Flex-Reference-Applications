@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-// FlexSenese Tagio Payload Parser - "Sensor 4-20ma" 1.2.1
+// FlexSenese Tagio Payload Parser - "Sensor 4-20ma" 1.2.2
 
 const payload_raw = payload.find(x => x.variable === 'payload_raw' || x.variable === 'payload' || x.variable === 'data');
 if (payload_raw) {
@@ -27,6 +27,21 @@ if (payload_raw) {
         data.push({ variable: 'longitude', value: buffer.readInt32LE(9) * 1e-07 });
         data.push({ variable: 'onboard_temperature', value: buffer.readInt16LE(13) * 0.01 });
         data.push({ variable: 'sensor_current', value: buffer.readUInt16LE(15) });
+
+        // Add location entry to support the use tagio map widgets
+        data.push({
+            variable: 'location',
+            value: 'Device Location',
+            location: {
+                lat: data.find(x => x.variable === 'latitude').value,
+                lng: data.find(x => x.variable === 'longitude').value,
+            },
+        });
+
+        // Add time to data fields
+        const date = new Date(0);
+        date.setUTCSeconds(data.find(x => x.variable === 'time').value);
+        data = data.map(x => ({ ...x, time: date }));
 
         payload = payload.concat(data.map(x => ({ ...x })));
     } catch (e) {

@@ -20,10 +20,17 @@
 #error "Must supply a GIT_SHORT_HASH!"
 #endif
 
+#define APP_NAME "Sensor 4-20ma"
+#define APP_VERSION "1.2.2"
+#ifndef APP_ID
+#define APP_ID 2
+#endif
+
 #ifndef MESSAGES_PER_DAY
 #define MESSAGES_PER_DAY 4
 #endif
 
+#define POWER_OUT_VOLTAGE FLEX_POWER_OUT_24V
 #define DELAY_SENSOR_STABILISE_MS 1500
 
 #define FLEX_CHECK(ret) \
@@ -52,7 +59,7 @@ static uint8_t SequenceNumberNext(void) {
 static uint32_t ReadSensorExternal(void) {
   uint32_t MicroAmps = UINT32_MAX;
 
-  if (FLEX_PowerOutInit(FLEX_POWER_OUT_24V) != 0) {
+  if (FLEX_PowerOutInit(POWER_OUT_VOLTAGE) != 0) {
     printf("Failed to Init Power Out\n");
     goto fail_0;
   }
@@ -105,9 +112,9 @@ static time_t QueueMessage() {
   return (FLEX_TimeGet() + 24 * 3600 / MESSAGES_PER_DAY);
 }
 
-const char *FLEX_AppVersionString() { return "1.2.1"; }
+const char *FLEX_AppVersionString() { return APP_VERSION; }
 
-uint16_t FLEX_AppId() { return 2; }
+uint16_t FLEX_AppId() { return APP_ID; }
 
 uint16_t FLEX_MessagesPerDay() { return MESSAGES_PER_DAY; }
 
@@ -117,7 +124,7 @@ uint16_t FLEX_MessagesPerDay() { return MESSAGES_PER_DAY; }
  * errors similar to this: "undefined reference to `FLEX_AppInit'"
  */
 void FLEX_AppInit() {
-  printf("Sensor 4-20ma: 1.2.1-%s\n", GIT_SHORT_HASH);
+  printf("%s: %s-%s\n", APP_NAME, APP_VERSION, GIT_SHORT_HASH);
 
   FLEX_JobSchedule(QueueMessage, FLEX_ASAP());
 }

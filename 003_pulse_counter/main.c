@@ -20,6 +20,12 @@
 #error "Must supply a GIT_SHORT_HASH!"
 #endif
 
+#define APP_NAME "Pulse Counter"
+#define APP_VERSION "1.2.2"
+#ifndef APP_ID
+#define APP_ID 3
+#endif
+
 #ifndef MESSAGES_PER_DAY
 #define MESSAGES_PER_DAY 4
 #endif
@@ -104,9 +110,9 @@ static time_t QueueMessage() {
   return (FLEX_TimeGet() + 24 * 3600 / MESSAGES_PER_DAY);
 }
 
-const char *FLEX_AppVersionString() { return "1.2.1"; }
+const char *FLEX_AppVersionString() { return APP_VERSION; }
 
-uint16_t FLEX_AppId() { return 3; }
+uint16_t FLEX_AppId() { return APP_ID; }
 
 uint16_t FLEX_MessagesPerDay() { return MESSAGES_PER_DAY; }
 
@@ -116,7 +122,7 @@ uint16_t FLEX_MessagesPerDay() { return MESSAGES_PER_DAY; }
  * errors similar to this: "undefined reference to `FLEX_AppInit'"
  */
 void FLEX_AppInit() {
-  printf("Pulse Counter: 1.2.1-%s\n", GIT_SHORT_HASH);
+  printf("%s: %s-%s\n", APP_NAME, APP_VERSION, GIT_SHORT_HASH);
   PulseCounterInit();
   FLEX_JobSchedule(QueueMessage, FLEX_ASAP());
 }
