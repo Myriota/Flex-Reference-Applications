@@ -1,5 +1,9 @@
 # Changelog
 
+## Flex Reference Applications v1.2.1
+
+* Update Flex SDK dependency to v2.2.1
+
 ## Flex Reference Applications v1.2.0
 
 * Fix the `002_sensor_4-20ma` and `003_pulse_counter` application Tago
