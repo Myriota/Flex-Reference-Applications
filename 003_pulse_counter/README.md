@@ -1,4 +1,4 @@
-# Pulse Counter v1.2.2
+# Pulse Counter v1.3.0
 
 A reference app demonstrating how to interface to a pulse counter sensor from the FlexSense and send the measurement over the Myriota satellite network.
 

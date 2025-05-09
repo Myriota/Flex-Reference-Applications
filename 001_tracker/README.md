@@ -1,4 +1,4 @@
-# Tracker v1.2.2
+# Tracker v1.3.0
 
 A reference app to demonstrate location reporting over the Myriota satellite network.
 

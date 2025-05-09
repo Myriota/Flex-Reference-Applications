@@ -14,7 +14,7 @@
 # limitations under the License.
 
 
-# Unpacker for the FlexSense - "Tracker" 1.2.2
+# Unpacker for the FlexSense - "Tracker" 1.3.0
 # Usage:
 # unpack.py -x <message_data>
 # or
@@ -39,7 +39,7 @@ def unpack(packet):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Unpack hexadecimal data from FlexSense - \"Tracker\" 1.2.2",
+        description="Unpack hexadecimal data from FlexSense - \"Tracker\" 1.3.0",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(

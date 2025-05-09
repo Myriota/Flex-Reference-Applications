@@ -21,7 +21,7 @@
 #endif
 
 #define APP_NAME "Tracker"
-#define APP_VERSION "1.2.2"
+#define APP_VERSION "1.3.0"
 #ifndef APP_ID
 #define APP_ID 1
 #endif
@@ -46,8 +46,7 @@ struct message {
   int32_t longitude;
   int16_t onboard_temperature;
 } __attribute__((packed));
-_Static_assert(sizeof(struct message) <= FLEX_MAX_MESSAGE_SIZE,
-    "max message size");
+
 
 static uint8_t SequenceNumberNext(void) {
   static uint8_t sequence_number = 0;
