@@ -14,7 +14,7 @@
 # limitations under the License.
 
 
-# Unpacker for the FlexSense - "Sensor 4-20ma" 1.3.0
+# Unpacker for the FlexSense - "Sensor 4-20ma" 1.3.2
 # Usage:
 # unpack.py -x <message_data>
 # or
@@ -40,7 +40,7 @@ def unpack(packet):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Unpack hexadecimal data from FlexSense - \"Sensor 4-20ma\" 1.3.0",
+        description="Unpack hexadecimal data from FlexSense - \"Sensor 4-20ma\" 1.3.2",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(

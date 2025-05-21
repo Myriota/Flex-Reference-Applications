@@ -21,7 +21,7 @@
 #endif
 
 #define APP_NAME "Pulse Counter"
-#define APP_VERSION "1.3.0"
+#define APP_VERSION "1.3.2"
 #ifndef APP_ID
 #define APP_ID 3
 #endif

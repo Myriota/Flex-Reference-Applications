@@ -21,7 +21,7 @@
 #endif
 
 #define APP_NAME "Sensor 4-20ma"
-#define APP_VERSION "1.3.0"
+#define APP_VERSION "1.3.2"
 #ifndef APP_ID
 #define APP_ID 2
 #endif
