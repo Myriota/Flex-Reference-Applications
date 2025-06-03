@@ -1,6 +1,6 @@
 project('flex-reference-applications',
   'c',
-  version: '1.3.2',
+  version: '1.4.0',
   meson_version: '>=0.61.2',
   default_options: [
     'c_std=gnu99',
@@ -55,7 +55,7 @@ foreach app: apps
     bin = custom_target('@0@.bin'.format(name),
         output: [
           '@0@.bin.raw'.format(name),
-          '@0@.app.bin'.format(name),
+          '@0@.nonetwork.bin'.format(name),
           '@0@.bin'.format(name),
         ],
         input: elf,

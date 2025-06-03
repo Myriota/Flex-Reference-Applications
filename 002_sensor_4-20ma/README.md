@@ -1,4 +1,4 @@
-# Sensor 4-20ma v1.3.2
+# Sensor 4-20ma v1.4.0
 
 A reference app demonstrating how to interface to a 4-20mA analog sensor from the FlexSense and send the measurement over the Myriota satellite network.
 
@@ -13,7 +13,8 @@ onboard GNSS receiver to report the last known location of the device. A GNSS
 fix will be performed once a week. The device also reports the internal
 temperature of the FlexSense.
 
-> [!IMPORTANT] The application will default to powering the sensor at 24V. This
+> [!IMPORTANT]
+> The application will default to powering the sensor at 24V. This
 > may exceed the rating of some sensors and cause damage.  The FlexSense can be
 > configured to also support 5V & 12V outputs. Please adjust the output to suit
 > the selected sensor.

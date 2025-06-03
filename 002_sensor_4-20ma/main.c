@@ -20,15 +20,29 @@
 #error "Must supply a GIT_SHORT_HASH!"
 #endif
 
+#define MAX_APP_NAME_LEN 32
+
 #define APP_NAME "Sensor 4-20ma"
-#define APP_VERSION "1.3.2"
+#define APP_VERSION "1.4.0"
 #ifndef APP_ID
 #define APP_ID 2
 #endif
 
+#define DIAG_APP_ID FLEX_DIAG_CONF_ID_USER_0
+#define DIAG_APP_NAME FLEX_DIAG_CONF_ID_USER_1
+#define CONF_MSG_PER_DAY FLEX_DIAG_CONF_ID_USER_2
+
 #ifndef MESSAGES_PER_DAY
 #define MESSAGES_PER_DAY 4
 #endif
+
+// clang-format off
+FLEX_DIAG_CONF_TABLE_BEGIN()
+  FLEX_DIAG_CONF_TABLE_U32_ADD(DIAG_APP_ID, "Application ID", APP_ID, FLEX_DIAG_CONF_TYPE_DIAG),
+  FLEX_DIAG_CONF_TABLE_STR_ADD(DIAG_APP_NAME, "Application Name", APP_NAME, MAX_APP_NAME_LEN, FLEX_DIAG_CONF_TYPE_DIAG),
+  FLEX_DIAG_CONF_TABLE_U32_ADD(CONF_MSG_PER_DAY, "Messages Per Day", MESSAGES_PER_DAY, FLEX_DIAG_CONF_TYPE_CONF),
+FLEX_DIAG_CONF_TABLE_END();
+// clang-format on
 
 #define POWER_OUT_VOLTAGE FLEX_POWER_OUT_24V
 #define DELAY_SENSOR_STABILISE_MS 1500
@@ -40,6 +54,11 @@
     } \
   } while (0);
 
+/*
+ * It is recommended to keep the message size to 20 bytes or lower for reduced message
+ * latency. Refer to the technical documentation at https://developer.myriota.com/
+ * for more information on message latency.
+ */
 struct message {
   uint8_t sequence_number;
   uint32_t time;
@@ -108,14 +127,27 @@ static time_t QueueMessage() {
 
   FLEX_MessageSchedule((uint8_t *)&msg, sizeof(msg));
 
-  return (FLEX_TimeGet() + 24 * 3600 / MESSAGES_PER_DAY);
+  uint32_t messages_per_day = MESSAGES_PER_DAY;
+  if (FLEX_DiagConfValueRead(CONF_MSG_PER_DAY, &messages_per_day) != 0) {
+    printf("Failed to read messages_per_day!\n");
+  }
+
+  return (FLEX_TimeGet() + 24 * 3600 / messages_per_day);
 }
 
 const char *FLEX_AppVersionString() { return APP_VERSION; }
 
-uint16_t FLEX_AppId() { return APP_ID; }
+// Handle the update made to the CONF_MSG_PER_DAY configuration value.
+static void msg_per_day_handler(const void *const value) {
+  if (value == NULL) {
+    return;
+  }
 
-uint16_t FLEX_MessagesPerDay() { return MESSAGES_PER_DAY; }
+  const uint32_t *const messages_per_day = value;
+
+  // Schedule the QueueMessage job to run at the new interval
+  FLEX_JobSchedule(QueueMessage, (FLEX_TimeGet() + 24 * 3600 / *messages_per_day));
+}
 
 /*
  * IMPORTANT! `FLEX_AppInit` is the entry point for your application. You
@@ -125,5 +157,6 @@ uint16_t FLEX_MessagesPerDay() { return MESSAGES_PER_DAY; }
 void FLEX_AppInit() {
   printf("%s: %s-%s\n", APP_NAME, APP_VERSION, GIT_SHORT_HASH);
 
+  FLEX_DiagConfValueNotifyHandlerSet(CONF_MSG_PER_DAY, msg_per_day_handler);
   FLEX_JobSchedule(QueueMessage, FLEX_ASAP());
 }

@@ -1,5 +1,11 @@
 # Changelog
 
+## Flex Reference Applications v1.4.0
+
+* Update Flex SDK dependency to v2.4.0
+* Adds `MESSAGES_PER_DAY` as a configuration value that can be updated via Bluetooth using the FlexAssist mobile application.
+* Updates the file extension of the compiled binaries that do not include network info to .nonetwork.bin.
+
 ## Flex Reference Applications v1.3.2
 
 * Update Flex SDK dependency to v2.3.1

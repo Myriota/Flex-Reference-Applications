@@ -1,4 +1,4 @@
-# Tracker v1.3.2
+# Tracker v1.4.0
 
 A reference app to demonstrate location reporting over the Myriota satellite network.
 
@@ -10,7 +10,8 @@ will be performed before every satellite message is sent. The
 device also reports the internal temperature of the
 FlexSense.
 
-> [!IMPORTANT] Performing GNSS fixes has a relatively high energy usage.
+> [!IMPORTANT]
+> Performing GNSS fixes has a relatively high energy usage.
 > Firmware configurations with high message rates (and therefore frequent GNSS
 > fixes) will have reduced battery life.
 
@@ -26,4 +27,3 @@ FlexSense.
 
 > [!IMPORTANT]
 > Message data types are packed using little endian byte ordering.
-

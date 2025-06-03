@@ -1,4 +1,4 @@
-# Pulse Counter v1.3.2
+# Pulse Counter v1.4.0
 
 A reference app demonstrating how to interface to a pulse counter sensor from the FlexSense and send the measurement over the Myriota satellite network.
 
@@ -18,7 +18,7 @@ be performed once a week.
 | 1 - 4 | Time | uint32 | The time of the location reading in [UTC](https://en.wikipedia.org/wiki/Coordinated_Universal_Time) time. This is in [Unix time](https://en.wikipedia.org/wiki/Unix_time) format (also called Epoch time). |
 | 5 - 8 | Latitude | int32 | The latitude of the device recorded on the last call to `FLEX_GNSSFix` scaled by `1e7`. For example a received latitude value of `-891234567` is actually `-89.1234567`. |
 | 9 - 12 | Longitude | int32 | The longitude of the device recorded on the last call to `FLEX_GNSSFix` scaled by `1e7`. For example a received longitude value of `1386073300` is actually `138.6073300`. |
-| 13 - 14 | Pulse Counter | uint16 | The number of pulse that have been counted by the FlexSenses pulse counter. |
+| 13 - 14 | Pulse Counter | uint16 | The number of pulses that have been counted by the FlexSenses pulse counter. |
 
 > [!IMPORTANT]
 > Message data types are packed using little endian byte ordering.

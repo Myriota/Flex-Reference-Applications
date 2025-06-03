@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-// FlexSenese Tagio Payload Parser - "Tracker" 1.3.2
+// FlexSenese Tagio Payload Parser - "Tracker" 1.4.0
 
 const payload_raw = payload.find(x => x.variable === 'payload_raw' || x.variable === 'payload' || x.variable === 'data');
 if (payload_raw) {
