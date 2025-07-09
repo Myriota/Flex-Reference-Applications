@@ -2,3 +2,7 @@ option('skip_gnss', type : 'boolean', value : false,
         description: 'Disable GNSS sync task and use default location',
         yield: true
 )
+option('disable_ble_adv', type : 'boolean', value : false,
+        description: 'Disable BLE advertising when running this user application',
+        yield: true
+)

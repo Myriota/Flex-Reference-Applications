@@ -1,4 +1,4 @@
-# Sensor 4-20ma v1.4.0
+# Sensor 4-20ma v1.4.1
 
 A reference app demonstrating how to interface to a 4-20mA analog sensor from the FlexSense and send the measurement over the Myriota satellite network.
 

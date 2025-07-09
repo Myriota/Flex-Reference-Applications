@@ -23,7 +23,7 @@
 #define MAX_APP_NAME_LEN 32
 
 #define APP_NAME "Pulse Counter"
-#define APP_VERSION "1.4.0"
+#define APP_VERSION "1.4.1"
 #ifndef APP_ID
 #define APP_ID 3
 #endif

@@ -1,5 +1,9 @@
 # Changelog
 
+## Flex Reference Applications v1.4.1
+
+* Update Flex SDK dependency to v2.5.0
+
 ## Flex Reference Applications v1.4.0
 
 * Update Flex SDK dependency to v2.4.0
