@@ -1,4 +1,4 @@
-# Tracker v1.4.1
+# Tracker v1.6.0
 
 A reference app to demonstrate location reporting over the Myriota satellite network.
 
@@ -24,6 +24,7 @@ FlexSense.
 | 5 - 8 | Latitude | int32 | The latitude of the device scaled by `1e7`. For example a received latitude value of `-891234567` is actually `-89.1234567`. |
 | 9 - 12 | Longitude | int32 | The longitude of the device scaled by `1e7`. For example a received longitude value of `1386073300` is actually `138.6073300`. |
 | 13 - 14 | Onboard Temperature | int16 | The temperature inside the Myriota Module in degrees Celsius scale by 100.  For example a received value of 3000 is actually 30.00 C. |
+| 15 - 16 | Battery Voltage Mv | int16 | A reading of the FlexSenses' battery voltage recorded in millivolts. This voltage reading is not an accurate indicator of the State of health of the batteries because of the chemical characteristics of lithium-ion batteries. This reading should only be used as an estimate of the State of health of the batteries. |
 
 > [!IMPORTANT]
 > Message data types are packed using little endian byte ordering.

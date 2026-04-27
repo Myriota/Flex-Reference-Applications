@@ -14,7 +14,7 @@
 # limitations under the License.
 
 
-# Unpacker for the FlexSense - "Sensor 4-20ma" 1.4.1
+# Unpacker for the FlexSense - "Sensor 4-20ma" 1.6.0
 # Usage:
 # unpack.py -x <message_data>
 # or
@@ -26,8 +26,8 @@ import json
 import fileinput
 
 def unpack(packet):
-    sequence_number, time, latitude, longitude, onboard_temperature, sensor_current = struct.unpack(
-        "<BIiihH", bytearray.fromhex(packet[0:34]))
+    sequence_number, time, latitude, longitude, onboard_temperature, sensor_current, battery_voltage_mv = struct.unpack(
+        "<BIiihHh", bytearray.fromhex(packet[0:38]))
 
     return [{
         "Sequence Number": sequence_number,
@@ -36,11 +36,12 @@ def unpack(packet):
         "Longitude": longitude * 1e-07,
         "Onboard Temperature": onboard_temperature * 0.01,
         "Sensor Current": sensor_current,
+        "Battery Voltage Mv": battery_voltage_mv,
     }]
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Unpack hexadecimal data from FlexSense - \"Sensor 4-20ma\" 1.4.1",
+        description="Unpack hexadecimal data from FlexSense - \"Sensor 4-20ma\" 1.6.0",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(

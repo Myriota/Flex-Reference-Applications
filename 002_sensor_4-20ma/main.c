@@ -23,7 +23,7 @@
 #define MAX_APP_NAME_LEN 32
 
 #define APP_NAME "Sensor 4-20ma"
-#define APP_VERSION "1.4.1"
+#define APP_VERSION "1.6.0"
 #ifndef APP_ID
 #define APP_ID 2
 #endif
@@ -66,6 +66,7 @@ struct message {
   int32_t longitude;
   int16_t onboard_temperature;
   uint16_t sensor_current;
+  int16_t battery_voltage_mv;
 } __attribute__((packed));
 
 
@@ -102,6 +103,16 @@ fail_0:
   return MicroAmps;
 }
 
+static int ReadBatteryVoltage(int16_t *const battery_mv) {
+  int32_t mv = 0;
+  if (FLEX_GetBatteryVoltage(&mv) != 0) {
+    printf("Failed to read battery voltage!\n");
+    return -1;
+  }
+  *battery_mv = (int16_t)mv;
+  return 0;
+}
+
 static time_t QueueMessage() {
   struct message msg = {0};
 
@@ -116,14 +127,18 @@ static time_t QueueMessage() {
   FLEX_CHECK(FLEX_TemperatureGet(&onboard_temperature));
   msg.onboard_temperature = (int16_t)(onboard_temperature * 100);
   msg.sensor_current = ReadSensorExternal();
+  int16_t battery_voltage_mv;
+  FLEX_CHECK(ReadBatteryVoltage(&battery_voltage_mv));
+  msg.battery_voltage_mv = (int16_t)battery_voltage_mv;
 
-  printf("Scheduled message: %u %lu %ld %ld %d %u\n",
+  printf("Scheduled message: %u %lu %ld %ld %d %u %d\n",
     msg.sequence_number,
     msg.time,
     msg.latitude,
     msg.longitude,
     msg.onboard_temperature,
-    msg.sensor_current);
+    msg.sensor_current,
+    msg.battery_voltage_mv);
 
   FLEX_MessageSchedule((uint8_t *)&msg, sizeof(msg));
 

@@ -1,4 +1,4 @@
-# Sensor 4-20ma v1.4.1
+# Sensor 4-20ma v1.6.0
 
 A reference app demonstrating how to interface to a 4-20mA analog sensor from the FlexSense and send the measurement over the Myriota satellite network.
 
@@ -29,6 +29,7 @@ temperature of the FlexSense.
 | 9 - 12 | Longitude | int32 | The longitude of the device recorded on the last call to `FLEX_GNSSFix` scaled by `1e7`. For example a received longitude value of `1386073300` is actually `138.6073300`. |
 | 13 - 14 | Onboard Temperature | int16 | The temperature inside the Myriota Module in degrees Celsius scale by 100.  For example a received value of 3000 is actually 30.00 C. |
 | 15 - 16 | Sensor Current | uint16 | The current of an externally attached sensor. The current sensor reading is in micro-amps (uA). |
+| 17 - 18 | Battery Voltage Mv | int16 | A reading of the FlexSenses' battery voltage recorded in millivolts. This voltage reading is not an accurate indicator of the State of health of the batteries because of the chemical characteristics of lithium-ion batteries. This reading should only be used as an estimate of the State of health of the batteries. |
 
 > [!IMPORTANT]
 > Message data types are packed using little endian byte ordering.

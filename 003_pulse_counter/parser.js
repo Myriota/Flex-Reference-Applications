@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-// FlexSenese Tagio Payload Parser - "Pulse Counter" 1.4.1
+// FlexSenese Tagio Payload Parser - "Pulse Counter" 1.6.0
 
 const payload_raw = payload.find(x => x.variable === 'payload_raw' || x.variable === 'payload' || x.variable === 'data');
 if (payload_raw) {
@@ -26,6 +26,7 @@ if (payload_raw) {
         data.push({ variable: 'latitude', value: buffer.readInt32LE(5) * 1e-07 });
         data.push({ variable: 'longitude', value: buffer.readInt32LE(9) * 1e-07 });
         data.push({ variable: 'pulse_counter', value: buffer.readUInt16LE(13) });
+        data.push({ variable: 'battery_voltage_mv', value: buffer.readInt16LE(15) });
 
         // Add location entry to support the use tagio map widgets
         data.push({

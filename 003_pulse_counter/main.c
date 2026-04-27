@@ -23,7 +23,7 @@
 #define MAX_APP_NAME_LEN 32
 
 #define APP_NAME "Pulse Counter"
-#define APP_VERSION "1.4.1"
+#define APP_VERSION "1.6.0"
 #ifndef APP_ID
 #define APP_ID 3
 #endif
@@ -65,6 +65,7 @@ struct message {
   int32_t latitude;
   int32_t longitude;
   uint16_t pulse_counter;
+  int16_t battery_voltage_mv;
 } __attribute__((packed));
 
 
@@ -104,6 +105,16 @@ static void PulseCounterInit(void) {
   *init = FLEX_PulseCounterGet();
 }
 
+static int ReadBatteryVoltage(int16_t *const battery_mv) {
+  int32_t mv = 0;
+  if (FLEX_GetBatteryVoltage(&mv) != 0) {
+    printf("Failed to read battery voltage!\n");
+    return -1;
+  }
+  *battery_mv = (int16_t)mv;
+  return 0;
+}
+
 static time_t QueueMessage() {
   struct message msg = {0};
 
@@ -115,13 +126,17 @@ static time_t QueueMessage() {
   msg.latitude = (int32_t)latitude;
   msg.longitude = (int32_t)longitude;
   msg.pulse_counter = ReadPulseCount();
+  int16_t battery_voltage_mv;
+  FLEX_CHECK(ReadBatteryVoltage(&battery_voltage_mv));
+  msg.battery_voltage_mv = (int16_t)battery_voltage_mv;
 
-  printf("Scheduled message: %u %lu %ld %ld %u\n",
+  printf("Scheduled message: %u %lu %ld %ld %u %d\n",
     msg.sequence_number,
     msg.time,
     msg.latitude,
     msg.longitude,
-    msg.pulse_counter);
+    msg.pulse_counter,
+    msg.battery_voltage_mv);
 
   FLEX_MessageSchedule((uint8_t *)&msg, sizeof(msg));
 

@@ -1,4 +1,4 @@
-# Pulse Counter v1.4.1
+# Pulse Counter v1.6.0
 
 A reference app demonstrating how to interface to a pulse counter sensor from the FlexSense and send the measurement over the Myriota satellite network.
 
@@ -19,6 +19,7 @@ be performed once a week.
 | 5 - 8 | Latitude | int32 | The latitude of the device recorded on the last call to `FLEX_GNSSFix` scaled by `1e7`. For example a received latitude value of `-891234567` is actually `-89.1234567`. |
 | 9 - 12 | Longitude | int32 | The longitude of the device recorded on the last call to `FLEX_GNSSFix` scaled by `1e7`. For example a received longitude value of `1386073300` is actually `138.6073300`. |
 | 13 - 14 | Pulse Counter | uint16 | The number of pulses that have been counted by the FlexSenses pulse counter. |
+| 15 - 16 | Battery Voltage Mv | int16 | A reading of the FlexSenses' battery voltage recorded in millivolts. This voltage reading is not an accurate indicator of the State of health of the batteries because of the chemical characteristics of lithium-ion batteries. This reading should only be used as an estimate of the State of health of the batteries. |
 
 > [!IMPORTANT]
 > Message data types are packed using little endian byte ordering.
